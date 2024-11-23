@@ -6,8 +6,8 @@ Currently v0.9-alpha
 ## ToC
 
 [Features](#features)
-[What's to come](#What%27s%20to%20come)
-[Install instructions](#Install%27instructions)
+[What's to come](#What's%20to%20come)
+[Install instructions](#Install%20instructions)
 ## Features
 ### Custom profiles
 
