@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Clock Widget</title>
+    <style>
+        /* Ensure the clock fits inside 55x55 pixels */
+        .clock {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: #0000005a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Clock face */
+        .clock-face {
+            width: 50px; /* Adjusted size */
+            height: 50px; /* Adjusted size */
+            border-radius: 50%;
+            background-color: #33333385;
+            position: relative;
+            border: 2px solid #44444479;
+        }
+
+        /* Hour, minute, second hands */
+        .clock-face div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 50% 100%; /* Pivot at the bottom of the hand */
+            transform: translate(-50%, -100%); /* Center the hand at the bottom */
+        }
+
+        #hour {
+            width: 2px; /* Adjusted width */
+            height: 10px;  /* Shortened hand */
+            background-color: #fff;
+        }
+
+        #minute {
+            width: 1.5px; /* Adjusted width */
+            height: 20px; /* Shortened hand */
+            background-color: #ddd;
+        }
+
+        #second {
+            width: 1px;
+            height: 22px; /* Shortened hand */
+            background-color: #ff5733; /* red color for the second hand */
+        }
+
+        /* Apply dark theme */
+        body {
+            background-color: #1e1e1e75;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hour" id="hour"></div>
+            <div class="minute" id="minute"></div>
+            <div class="second" id="second"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            const secondDegree = now.getSeconds() * 6; // 360deg / 60 = 6deg per second
+            const minuteDegree = (now.getMinutes() * 6) + (now.getSeconds() * 0.1); // 360deg / 60 = 6deg per minute
+            const hourDegree = (now.getHours() % 12) * 30 + (now.getMinutes() * 0.5); // 360deg / 12 = 30deg per hour
+
+            // Update hands' rotation around the center of the clock face
+            document.getElementById('second').style.transform = `translate(-50%, -100%) rotate(${secondDegree}deg)`;
+            document.getElementById('minute').style.transform = `translate(-50%, -100%) rotate(${minuteDegree}deg)`;
+            document.getElementById('hour').style.transform = `translate(-50%, -100%) rotate(${hourDegree}deg)`;
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to set the clock immediately
+        updateClock();
+    </script>
+</body>
+</html>

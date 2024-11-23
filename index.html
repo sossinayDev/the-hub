@@ -1,11 +1,74 @@
 <!DOCTYPE html>
+
 <head>
     <title>Hub</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <script src="scripts/main.js"></script>
-    <div class="content">
-            
+    <div class="container">
+        <div class="content">
+            <div class="left_bar">
+                <div class="settings_bar">
+                    <img src="assets/icons/settings/change_wallpaper.png" id="change_wallpaper">
+                    <img src="assets/icons/settings/random_wallpaper.png" id="random_wallpaper">
+                    <img src="assets/icons/settings/edit_widgets.png" id="edit_widgets">
+                    <img src="assets/icons/settings/add_alert.png" id="add_alert">
+                </div>
+                <br>
+                <p id="edit_indicator" style="display: none;">Editing widgets</p>
+            </div>
+            <div class="empty">
+                <div class="menu-container">
+                    <div class="menu small_widget_selector">
+                        <div class="menu-item" onclick="add_small_widget('clock')">Digital clock</div>
+                        <div class="menu-item" onclick="add_small_widget('analog_clock')">Analog clock</div>
+                        <div class="menu-item" onclick="add_small_widget('date')">Date</div>
+                        <div class="menu-item" onclick="add_small_widget('weather')">Weather</div>
+                    </div>
+                    <div class="menu medium_widget_selector">
+                        <div class="menu-item" onclick="add_medium_widget('clock')">Digital clock</div>
+                        <div class="menu-item" onclick="add_medium_widget('date')">Date</div>
+                        <div class="menu-item" onclick="add_medium_widget('shellshockers')">ShellShock Widget</div>
+                        <div class="menu-item" onclick="add_medium_widget('weather')">Weather</div>
+                    </div>
+                    <div class="menu big_widget_selector">
+                        <div class="menu-item" onclick="add_big_widget('analog_clock')">Analog clock</div>
+                        <div class="menu-item" onclick="add_big_widget('todo')">ToDo list</div>
+                        <div class="menu-item" onclick="add_big_widget('weather')">Weather</div>
+                    </div>
+                </div>
+            </div>
+            <div class="right_bar">
+            </div>
+        </div>
+        <div class="bottom_bar">
+            <div class="user_selector" id="user_selector">
+                <img src="assets/icons/user.png" profileid="1">
+                <img src="assets/icons/user.png" profileid="2">
+                <img src="assets/icons/user.png" profileid="3">
+            </div>
+            <div class="big_widget_bar" id="big_widget_bar">
+                <!-- <iframe class="big_widget" src="widgets/big/analog_clock.html"></iframe>
+                <iframe class="big_widget" src="widgets/big/todo.html"></iframe> -->
+            </div>
+            <div class="widget_container">
+                <div class="widget_bar small_widget_bar" id="small_widget_bar">
+                    <!-- <iframe class="small_widget" src="widgets/small/clock.html"></iframe>
+                    <iframe class="small_widget" src="widgets/small/date.html"></iframe> -->
+                </div>
+                <div class="widget_bar medium_widget_bar" id="medium_widget_bar">
+                    <!-- <iframe class="widget" src="widgets/medium/weather.html"></iframe>
+                    <iframe class="widget" src="widgets/medium/date.html"></iframe> -->
+                </div>
+            </div>
+        </div>
     </div>
 </body>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Poppins;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        #todo-widget {
+            width: 140px;
+            height: 140px;
+            padding: 5px;
+            font-size: 10px;
+            overflow: hidden;
+            color: white;
+        }
+
+        #todo-widget h3 {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        
+
+        #task-list {
+            list-style-type: none;
+            max-height: 60px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin-top: 5px;
+        }
+
+        #task-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+            align-items: center;
+        }
+
+        #task-list li.hidden {
+            color: #1c792084;
+        }
+
+        #task-list .check-btn {
+            border: none;
+            color: #35ff3c;
+            font-size: 10px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        #task-list button {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            color: white;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        #task-input {
+            width: 100%;
+            padding: 2px;
+            font-size: 10px;
+            background-color: #0000000a;
+            color: white;
+            border-width: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="todo-widget">
+        <h3>To-Do List</h3>
+        <input type="text" id="task-input" placeholder="Add task" />
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('task-input');
+        const taskList = document.getElementById('task-list');
+
+        // Load tasks from localStorage on page load
+        document.addEventListener('DOMContentLoaded', loadTasks);
+
+        // Add task when Enter key is pressed
+        taskInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && taskInput.value.trim() !== '') {
+                addTask(taskInput.value.trim(), false); // New task is not hidden
+                taskInput.value = '';
+            }
+        });
+
+        function addTask(taskText, hidden) {
+            const li = document.createElement('li');
+            li.innerHTML = `<button class="check-btn" onclick="checkTask(this)">✔</button> ${taskText}`;
+            if (hidden) li.classList.add('hidden'); // Hide if task is marked as hidden
+
+            taskList.appendChild(li);
+            saveTasks(); // Save tasks to localStorage
+        }
+
+        function checkTask(button) {
+            const li = button.parentElement;
+            li.classList.add('hidden'); // Hide the task visually
+            saveTasks(); // Save updated state to localStorage
+        }
+
+        function removeTask(button) {
+            const li = button.parentElement;
+            li.remove(); // Remove task from the document
+            saveTasks(); // Save updated state to localStorage
+        }
+
+        function saveTasks() {
+            const tasks = [];
+            taskList.querySelectorAll('li').forEach(li => {
+                if (!li.classList.contains('hidden')) {  // Only save visible tasks
+                    const taskText = li.textContent.replace('✔', '').replace('x', '').trim(); // Get the task text
+                    tasks.push({ text: taskText });
+                }
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks)); // Store tasks in localStorage
+        }
+
+        function loadTasks() {
+            const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            savedTasks.forEach(task => {
+                addTask(task.text, false); // Load tasks, none hidden initially
+            });
+        }
+    </script>
+
+</body>
+
+</html>

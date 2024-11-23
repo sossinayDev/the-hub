@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap">
+  <title>Weather Widget</title>
+</head>
+
+<body class="content weather">
+  <img id="weatherIcon" src="" alt="Weather Icon">
+  <p id="temperature">/--°</p>
+
+  <script>
+    const apiBaseURL = "https://api.open-meteo.com/v1/forecast?current=temperature_2m,apparent_temperature,is_day,weather_code";
+
+    // Function to get user's geolocation
+    function getGeolocation() {
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => resolve(position.coords),
+            (error) => reject(error)
+          );
+        } else {
+          reject("Geolocation is not supported by this browser.");
+        }
+      });
+    }
+
+    // Function to fetch weather data based on the coordinates
+    async function fetchWeatherData(latitude, longitude) {
+      const apiURL = `${apiBaseURL}&latitude=${latitude}&longitude=${longitude}`;
+      try {
+        const response = await fetch(apiURL);
+        const data = await response.json();
+
+        // Extract weather data
+        const currentTemperature = data.current.temperature_2m;
+        const apparentTemperature = data.current.apparent_temperature;
+        const isDay = data.current.is_day;
+        const weatherCode = data.current.weather_code;
+
+        // Store weather data in local storage
+        localStorage.setItem('weatherData', JSON.stringify({
+          temperature: currentTemperature,
+          apparentTemperature: apparentTemperature,
+          isDay: isDay,
+          weatherCode: weatherCode,
+          lastUpdated: Date.now()
+        }));
+
+        // Update the weather widget
+        updateWeatherWidget(currentTemperature, apparentTemperature, isDay, weatherCode);
+
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
+    }
+
+    // Function to update the weather widget with the latest data
+    function updateWeatherWidget(temperature, apparentTemperature, isDay, weatherCode) {
+      document.getElementById('temperature').textContent = `/${temperature}°`;
+
+      // Determine the appropriate weather icon
+      let weatherIconPath = determineWeatherIcon(weatherCode, isDay);
+      document.getElementById('weatherIcon').src = weatherIconPath;
+    }
+
+    // Function to determine the correct weather icon path
+    function determineWeatherIcon(weatherCode, isDay) {
+      // Codes 0, 1, 2 have day/night variants
+      if (weatherCode === 0 || weatherCode === 1 || weatherCode === 2) {
+        return isDay ? `../../assets/icons/weather/${weatherCode}day.png` : `../../assets/icons/weather/${weatherCode}night.png`;
+      } else {
+        // Other codes use a single icon
+        return `../../assets/icons/weather/${weatherCode}.png`;
+      }
+    }
+
+    // Function to check local storage and decide if location or weather needs updating
+    async function handleWeatherAndLocation() {
+      const currentTimestamp = Date.now();
+
+      // Check if location is stored in local storage and if it needs to be updated (once a day)
+      let storedLocation = JSON.parse(localStorage.getItem('locationData'));
+      if (!storedLocation || currentTimestamp - storedLocation.lastUpdated > 24 * 60 * 60 * 1000) {
+        try {
+          const { latitude, longitude } = await getGeolocation();
+          localStorage.setItem('locationData', JSON.stringify({ latitude, longitude, lastUpdated: currentTimestamp }));
+          fetchWeatherData(latitude, longitude);
+        } catch (error) {
+          console.error("Error getting geolocation:", error);
+        }
+      } else {
+        // Use the stored location
+        const { latitude, longitude } = storedLocation;
+        let storedWeatherData = JSON.parse(localStorage.getItem('weatherData'));
+
+        // Check if weather data needs to be updated (every 5 minutes)
+        if (!storedWeatherData || currentTimestamp - storedWeatherData.lastUpdated > 5 * 60 * 1000) {
+          fetchWeatherData(latitude, longitude);
+        } else {
+          // Use stored weather data
+          const { temperature, apparentTemperature, isDay, weatherCode } = storedWeatherData;
+          updateWeatherWidget(temperature, apparentTemperature, isDay, weatherCode);
+        }
+      }
+    }
+
+    // Run the function when the page loads
+    handleWeatherAndLocation();
+
+    // Set interval to update the weather every 5 minutes
+    setInterval(handleWeatherAndLocation, 5 * 60 * 1000);
+  </script>
+</body>
+
+</html>

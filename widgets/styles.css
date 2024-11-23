@@ -1,0 +1,91 @@
+body {
+    background-color: #00000063;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-family: Poppins;
+}
+
+img {
+    width: 32px;
+    height: 32px;
+    margin: 1%
+}
+
+.clock {
+    font-size: 200%;
+}
+
+.weather{
+    font-size: 200%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 4%;
+    vertical-align: center;
+}
+
+.weather p {
+    margin: 0 2%;
+    /* Optional: spacing between the temperature text and the image */
+}
+
+.date {
+    vertical-align: center;
+    font-size: 100%;
+}
+
+
+img.small {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.date-small {
+    margin: 0;
+    padding: 0;
+    font-size: 275%;
+    color: rgb(181, 54, 54);
+}
+
+.clock-small {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: center;
+    font-family: Poppins;
+    font-size: 125%;
+    font-weight: 600;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+}
+
+.big-weather {
+    font-size: 140%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: left;
+    align-items: left;
+    margin: 0;
+    padding: 4%;
+    vertical-align: center;
+    margin-bottom: 0;
+}
+
+h1.big-weather {
+    padding: 0;
+    color: rgb(181, 54, 54);
+}
+
+p.big-weather {
+    padding: 0;
+    font-size: 75%;
+}

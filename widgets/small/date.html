@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="date-small">
+  <span id="date">01</span>
+
+
+  <script>
+    // JavaScript to update the time every second
+    function updateTime() {
+      var now = new Date();
+      var date = String(now.getDate()).padStart(2, '0');
+
+      document.getElementById('date').textContent = date;
+    }
+
+    // Update time immediately and then every second
+    setInterval(updateTime, 1000);
+    updateTime(); // Run initially to set the time right away
+  </script>
+</body>
+
+</html>
