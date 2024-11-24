@@ -1,8 +1,8 @@
 
 let profiles = [
-    { id: 1, background: 2, widgets: { small: [], medium: [], big: [] } },
-    { id: 2, background: 4, widgets: { small: [], medium: [], big: [] } },
-    { id: 3, background: 8, widgets: { small: [], medium: [], big: [] } }
+    { id: 1, background: 2, widgets: { small: [], medium: [], big: [] }, settings: { dark_mode: true } },
+    { id: 2, background: 4, widgets: { small: [], medium: [], big: [] }, settings: { dark_mode: false } },
+    { id: 3, background: 8, widgets: { small: [], medium: [], big: [] }, settings: { dark_mode: true } }
 ];
 
 let activeProfile = localStorage.getItem("current_profile");
@@ -32,7 +32,7 @@ function loadWidgets(profileId) {
         console.error('Profile not found');
         return
     }
-    
+
     const widgetTypes = [
         { size: 'small', widgets: profile.widgets.small, barId: 'small_widget_bar', className: 'small_widget' },
         { size: 'medium', widgets: profile.widgets.medium, barId: 'medium_widget_bar', className: 'widget' },
@@ -151,6 +151,10 @@ function switchProfile(profileId) {
     stop_widget_editing();
     changeBackground(profileId);
     loadWidgets(profileId);
+    if (settingsOpen) {
+        toggleSettings()
+    }
+    load_settings()
 }
 
 
@@ -181,7 +185,7 @@ function next_wallpaper() {
     const profile = profiles.find(p => p.id === activeProfile);
     if (profile) {
         profile.background += 1;
-        if (profile.background > 10) {
+        if (profile.background > amountOfBackgrounds) {
             profile.background = 1;
         }
         changeBackground(activeProfile);
@@ -192,7 +196,7 @@ function next_wallpaper() {
 function random_wallpaper() {
     const profile = profiles.find(p => p.id === activeProfile);
     if (profile) {
-        profile.background = Math.floor(Math.random() * 9) + 1
+        profile.background = Math.floor(Math.random() * (amountOfBackgrounds - 1)) + 1
         changeBackground(activeProfile);
         saveProfiles();
     }
@@ -258,8 +262,75 @@ function init() {
                     }
                 });
             }
+            if (button.id == "settings") {
+                button.addEventListener('click', () => {
+                    toggleSettings()
+                });
+            }
         });
+        load_settings()
     };
 }
 
-setTimeout(init, 1)
+// Send dark mode status to all iframes
+function sendDarkModeStatus() {
+    const iframes = document.querySelectorAll('iframe'); // Select all iframes
+
+    // Loop through all iframes and send dark mode status
+    iframes.forEach(iframe => {
+        iframe.contentWindow.postMessage({ darkMode: isDarkMode }, '*');
+    });
+
+    const elements = document.querySelectorAll('*'); // Select all iframes
+
+    // Loop through all iframes and send dark mode status
+    elements.forEach(element => {
+        if (isDarkMode) {
+            element.classList.add("dark-mode")
+        }
+        else {
+            element.classList.remove("dark-mode")
+        }
+    });
+}
+
+function toggleSettings() {
+    settingsOpen = !settingsOpen
+    if (settingsOpen) {
+        document.querySelector(".menu-container").style.display = "none"
+        document.querySelector(".main_settings").style.display = "block"
+    }
+    else {
+        document.querySelector(".menu-container").style.display = "flex"
+        document.querySelector(".main_settings").style.display = "none"
+    }
+}
+
+function load_settings() {
+    const profile = profiles.find(p => p.id === activeProfile);
+    if (profile) {
+        isDarkMode = profile.settings.dark_mode
+        document.getElementById("dark_mode_checkbox").checked = isDarkMode
+    }
+    sendDarkModeStatus()
+}
+
+function save_settings() {
+    const profile = profiles.find(p => p.id === activeProfile);
+
+    isDarkMode = document.getElementById("dark_mode_checkbox").checked
+
+    if (profile) {
+        profile.settings.dark_mode = isDarkMode
+    }
+    saveProfiles()
+    sendDarkModeStatus()
+    console.log("Saved settings")
+}
+
+let settingsOpen = false
+let isDarkMode = false
+const amountOfBackgrounds = 10
+
+setTimeout(init, 10)
+setInterval(sendDarkModeStatus, 500)

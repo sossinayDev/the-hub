@@ -21,6 +21,7 @@
                     <img src="assets/icons/settings/random_wallpaper.png" id="random_wallpaper">
                     <img src="assets/icons/settings/edit_widgets.png" id="edit_widgets">
                     <img src="assets/icons/settings/add_alert.png" id="add_alert">
+                    <img src="assets/icons/settings/settings.png" id="settings">
                 </div>
                 <br>
                 <p id="edit_indicator" style="display: none;">Editing widgets</p>
@@ -44,7 +45,16 @@
                         <div class="menu-item" onclick="add_big_widget('todo')">ToDo list</div>
                         <div class="menu-item" onclick="add_big_widget('weather')">Weather</div>
                     </div>
+
                 </div>
+                <div class="main_settings" id="main_settings">
+                    <h1>Settings</h1>
+                    <input id="dark_mode_checkbox" type="checkbox" class="checkbox"><label
+                        for="dark_mode_checkbox">Dark theme</label>
+                    <br>
+                    <button id="save_settings" onclick="save_settings()">Save</button>
+                </div>
+
             </div>
             <div class="right_bar">
             </div>
@@ -69,6 +79,8 @@
                     <iframe class="widget" src="widgets/medium/date.html"></iframe> -->
                 </div>
             </div>
+            <iframe src="full_clocks\standart.html" class="main_clock_container" id="main_clock_container">
+            </iframe>
         </div>
     </div>
 </body>

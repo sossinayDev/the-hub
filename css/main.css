@@ -11,22 +11,26 @@ body {
 body::before {
     content: "";
     position: absolute;
-    background: var(--background-image); /* Use the CSS variable for background */
+    background: var(--background-image);
+    /* Use the CSS variable for background */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-size: cover;
     background-position: center;
-    filter: blur(5px); /* Blur the background only */
-    z-index: -1; /* Keep it behind all content */
+    filter: blur(5px);
+    /* Blur the background only */
+    z-index: -1;
+    /* Keep it behind all content */
     transition: background-image 0.5s ease-in-out;
 }
 
 
 .container {
     position: relative;
-    z-index: 1; /* Ensure content stays on top */
+    z-index: 1;
+    /* Ensure content stays on top */
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -55,7 +59,6 @@ body::before {
 }
 
 .big_widget {
-    background-color: #0a0a0ac5;
     margin-top: auto;
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -85,7 +88,18 @@ body::before {
     font-size: 200%;
     margin-left: 15px;
     padding: 0;
-    color:white;
+    color: #000000;
+    background-color: #ffffffc5;
+}
+
+#add_small_widget .dark-mode {
+    min-width: 85px;
+    min-height: 85px;
+    font-family: Poppins;
+    font-size: 200%;
+    margin-left: 15px;
+    padding: 0;
+    color: white;
     background-color: #0a0a0ac5;
 }
 
@@ -96,11 +110,16 @@ body::before {
     font-size: 200%;
     margin-left: 15px;
     padding: 0;
-    color:white;
-    background-color: #0a0a0ac5;
+    color: #000000;
+    background-color: #ffffffc5;
     border-width: 5px;
     border-radius: 15px;
     border-color: #ffffff3d;
+}
+
+#add_medium_widget .dark-mode {
+    color: white;
+    background-color: #0a0a0ac5;
 }
 
 #add_big_widget {
@@ -110,7 +129,12 @@ body::before {
     font-size: 200%;
     margin-left: 15px;
     padding: 0;
-    color:white;
+    color: rgb(0, 0, 0);
+    background-color: #ffffffc5;
+}
+
+#add_big_widget .dark-mode {
+    color: white;
     background-color: #0a0a0ac5;
 }
 
@@ -158,7 +182,7 @@ body::before {
     align-content: start;
     flex-direction: row;
     height: 25vh;
-    /* Adjust height as needed */
+    width: 100vw;
 }
 
 .settings_bar {
@@ -171,7 +195,7 @@ body::before {
     border-width: 3px;
 }
 
-.settings_bar img{
+.settings_bar img {
     width: 30px;
     margin-right: 5px;
     margin-left: 5px;
@@ -225,6 +249,13 @@ body::before {
     flex-direction: column;
 }
 
+.main_clock_container {
+    margin-top: auto;
+    margin-left: auto;
+    border-width: 0;
+}
+
+
 .user_selector img {
     margin-top: 3px;
     margin-bottom: 3px;
@@ -262,4 +293,111 @@ body::before {
 
 .menu-item:hover {
     background-color: #333;
+}
+
+.main_settings {
+    display: none;
+    justify-content: left;
+    align-items: left;
+    width: auto;
+    height: 100%;
+}
+
+button {
+    margin-top: 10px;
+    padding: 12px 24px;
+    background-color: #0000003d;
+    /* Primary color */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Smooth hover transition */
+}
+
+button:hover {
+    background-color: #7272726e;
+    /* Darker blue on hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    /* Increase shadow on hover */
+}
+
+button:active {
+    transform: translateY(0);
+    /* Return to normal when clicked */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Return to original shadow */
+}
+
+
+.checkbox {
+    align-items: center;
+    vertical-align: bottom;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0000003d;
+    border-radius: 4px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.checkbox:checked {
+    background-color: #0000003d;
+    border-color: #0000003d;
+}
+
+.checkbox:checked::before {
+    content: '\2713'; /* Checkmark */
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox label {
+    margin-left: 10px;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.checkbox:hover {
+    background-color: #eeeeee;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.checkbox:hover {
+    border-color: #7272726e;
+}
+
+.checkbox:active {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

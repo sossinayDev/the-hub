@@ -6,8 +6,8 @@ Currently v0.9-alpha
 ## ToC
 
 [Features](#features)
-[What's to come](#What's%20to%20come)
-[Install instructions](#Install%20instructions)
+[What's to come](#whats-to-come)
+[Install instructions](#install-instructionss)
 ## Features
 ### Custom profiles
 
@@ -93,7 +93,11 @@ Here are some things I might add to the hub in the future:
  - Light/Dark mode and more themes
 ## Install instructions
 Install "New Tab Redirect" from the Chrome Web Store (You will most certainly find alternatives for Firefox or other browsers)
+
 To install, download the repository and extract it somewhere safe.
+
 Open the "index.html" file you downloaded in your browser.
+
 Copy the text in the adress bar and paste it in the New Tab Redirect settings page.
+
 If you did everything correctly, The Hub should show up in a new tab.

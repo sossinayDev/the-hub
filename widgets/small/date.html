@@ -8,16 +8,17 @@
 </head>
 
 <body class="date-small">
-  <span id="date">01</span>
+  <span id="date-small">01</span>
 
 
+  <script src="../wget_main.js"></script>
   <script>
     // JavaScript to update the time every second
     function updateTime() {
       var now = new Date();
       var date = String(now.getDate()).padStart(2, '0');
 
-      document.getElementById('date').textContent = date;
+      document.getElementById('date-small').textContent = date;
     }
 
     // Update time immediately and then every second

@@ -6,9 +6,23 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <style>
-        input {
+        html {
+            color: black;
+            background-color: #ffffff44;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Poppins;
+        }
+
+        html.dark-mode {
             color: white;
-            background-color: #0a0a0a34;
+            background-color: #00000044;
+        }
+        input {
+            background-color: transparent;
             border-width: 0;
             height: 100%;
             width: 100%;
@@ -17,11 +31,15 @@
             font-family: Poppins;
             font-weight: 600;
         }
+        input.dark-mode{
+            color: white;
+        }
     </style>
 </head>
 
 <body>
     <input id="inputField" placeholder=">CODE<">
+    <script src="../wget_main.js"></script>
     <script>
         function redirectToWebsite() {
             const inputText = document.getElementById('inputField').value;

@@ -5,30 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analog Clock Widget</title>
     <style>
-        /* Ensure the clock fits inside 55x55 pixels */
         .clock {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background-color: #0000005a;
+            background-color: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0 0 130px rgba(255, 255, 255, 0.1);
+        }
+        .clock.dark-mode {
+            box-shadow: 0 0 130px rgba(27, 27, 27, 0.1);
             box-shadow: 0 0 130px rgba(0, 0, 0, 0.1);
         }
 
-        /* Clock face */
+        
+
         .clock-face {
-            width: 100px; /* Adjusted size */
-            height: 100px; /* Adjusted size */
-            border-radius: 105px;
-            background-color: #33333385;
+            width: 120px; /* Adjusted size */
+            height: 120px; /* Adjusted size */
+            border-radius: 50%;
+            background-color: #ffffff85;
             position: relative;
-            border: 2px solid #44444479;
+            border: 2px solid #cfcfcf79;
+        }
+        div.clock-face.dark-mode{
+            background-color: #00000085 !important;
+            border: 2px solid #000000 !important;
         }
 
         /* Hour, minute, second hands */
         .clock-face div {
+            border-radius: 0px;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -37,27 +46,43 @@
         }
 
         #hour {
-            width: 4px; /* Adjusted width */
-            height: 20px;  /* Shortened hand */
-            background-color: #fff;
+            border-width: 0px;
+            width: 4px;
+            height: 20px;
+            background-color: #000000;
+        }
+        #hour.dark-mode{
+            border-width: 0px;
+            background-color: #ffffff;
         }
 
         #minute {
-            width: 3px; /* Adjusted width */
-            height: 40px; /* Shortened hand */
-            background-color: #ddd;
+            border-width: 0px;
+            width: 3px; 
+            height: 40px;
+            background-color: #000000;
+        }
+
+        #minute.dark-mode{
+            border-width: 0px;
+            background-color: #ffffff;
         }
 
         #second {
+            border-width: 0px;
             width: 2px;
-            height: 44px; /* Shortened hand */
-            background-color: #ff5733; /* red color for the second hand */
+            height: 44px;
+            background-color: #15139c;
         }
 
-        /* Apply dark theme */
+        #second.dark-mode{
+            border-width: 0px;
+            background-color: #ff5733;
+        }
+
         body {
-            background-color: #1e1e1e75;
-            color: #fff;
+            background-color: #ffffff75;
+            color: #000000;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -65,6 +90,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+
+        body.dark-mode{
+            background-color: #00000054;
+            color: #fff;
         }
     </style>
 </head>
@@ -76,7 +106,6 @@
             <div class="second" id="second"></div>
         </div>
     </div>
-
     <script>
         function updateClock() {
             const now = new Date();
@@ -97,5 +126,6 @@
         // Initial call to set the clock immediately
         updateClock();
     </script>
+    <script src="../wget_main.js"></script>
 </body>
 </html>
