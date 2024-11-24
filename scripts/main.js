@@ -333,4 +333,4 @@ let isDarkMode = false
 const amountOfBackgrounds = 10
 
 setTimeout(init, 10)
-setInterval(sendDarkModeStatus, 500)
+setInterval(sendDarkModeStatus, 50)

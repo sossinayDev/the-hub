@@ -137,7 +137,7 @@ body.clock-small.dark-mode {
 h1.big-weather {
     background-color: transparent !important;
     padding: 0;
-    color: rgb(117, 0, 0);
+    color: #15139c;
 }
 
 h1.big-weather.dark-mode {
