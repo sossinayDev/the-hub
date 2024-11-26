@@ -4,15 +4,15 @@ window.addEventListener('message', function (event) {
   }
 });
 
-function update_theme(){
-    const elements = document.querySelectorAll('iframe, body, div, p, h1, h2, h3, h4, h5, h6, h7, h8, strong, a, span, html, input, ul');
-    elements.forEach(element => {
-      if (isDarkMode) {
-        element.classList.add("dark-mode");
-      } else {
-        element.classList.remove("dark-mode");
-      }
-    });
+function update_theme() {
+  const elements = document.querySelectorAll('iframe, body, div, p, h1, h2, h3, h4, h5, h6, h7, h8, strong, a, span, html, input, ul');
+  elements.forEach(element => {
+    if (isDarkMode) {
+      element.classList.add("dark-mode");
+    } else {
+      element.classList.remove("dark-mode");
+    }
+  });
 }
 
 let isDarkMode = false

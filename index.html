@@ -45,13 +45,37 @@
                         <div class="menu-item" onclick="add_big_widget('todo')">ToDo list</div>
                         <div class="menu-item" onclick="add_big_widget('weather')">Weather</div>
                     </div>
-
                 </div>
                 <div class="main_settings" id="main_settings">
                     <h1>Settings</h1>
                     <input id="dark_mode_checkbox" type="checkbox" class="checkbox"><label
                         for="dark_mode_checkbox">Dark theme</label>
                     <br>
+                    <h1>Dynamic Font and Weight Selector</h1>
+
+                    <label for="font-select">Choose a font:</label>
+                    <select id="font-select">
+                        <!-- Fonts will be populated dynamically -->
+                    </select>
+
+                    <label for="weight-select">Choose a weight:</label>
+                    <select id="weight-select">
+                        <option value="100">100 (Thin)</option>
+                        <option value="200">200 (Extra Light)</option>
+                        <option value="300">300 (Light)</option>
+                        <option value="400" selected>400 (Normal)</option>
+                        <option value="500">500 (Medium)</option>
+                        <option value="600">600 (Semi Bold)</option>
+                        <option value="700">700 (Bold)</option>
+                        <option value="800">800 (Extra Bold)</option>
+                        <option value="900">900 (Black)</option>
+                    </select>
+
+                    <div class="sample-text" id="sample-text">
+                        This is a sample text to preview the selected font and weight.
+                    </div>
+
+
                     <button id="save_settings" onclick="save_settings()">Save</button>
                 </div>
 

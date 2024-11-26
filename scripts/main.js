@@ -1,3 +1,64 @@
+const availableFonts = [
+    "Abril Fatface",
+    "Alata",
+    "Allison",
+    "Amatic SC",
+    "Anton",
+    "Audiowide",
+    "Big Shoulders Display",
+    "Black Ops One",
+    "Bokor",
+    "Bungee Shade",
+    "Chakra Petch",
+    "Cormorant Garamond",
+    "Doto",
+    "Edu AU VIC WA NT Pre",
+    "Exo",
+    "Faculty Glyphic",
+    "Fredericka the Great",
+    "Ga Maamli",
+    "Give You Glory",
+    "Jacquard 24",
+    "Jacquarda Bastarda 9",
+    "Jaro",
+    "Lacquer",
+    "Lilita One",
+    "Matemasie",
+    "Monoton",
+    "Mrs Saint Delafield",
+    "Orbitron",
+    "Permanent Marker",
+    "Press Start 2P",
+    "Protest Revolution",
+    "Rock Salt",
+    "Rowdies",
+    "Rubik Mono One",
+    "Rye",
+    "Sarina",
+    "Shadows Into Light",
+    "Silkscreen",
+    "Sixtyfour",
+    "Sour Gummy",
+    "Turret Road",
+    "Ubuntu",
+    "Arial",
+    "Arial Black",
+    "Verdana",
+    "Tahoma",
+    "Trebuchet MS",
+    "Georgia",
+    "Times New Roman",
+    "Courier New",
+    "Lucida Console",
+    "Helvetica",
+    "Comic Sans MS"
+  ]
+  
+
+
+
+
+
 
 let profiles = [
     { id: 1, background: 2, widgets: { small: [], medium: [], big: [] }, settings: { dark_mode: true } },
@@ -143,7 +204,6 @@ function start_widget_editing() {
     }
 }
 
-
 function switchProfile(profileId) {
     activeProfile = profileId;
     localStorage.setItem("current_profile", profileId)
@@ -156,7 +216,6 @@ function switchProfile(profileId) {
     }
     load_settings()
 }
-
 
 function saveProfiles() {
     localStorage.setItem('profiles', JSON.stringify(profiles));
@@ -201,7 +260,6 @@ function random_wallpaper() {
         saveProfiles();
     }
 }
-
 
 function add_widget(name, size) {
     const profile = profiles.find(p => p.id === activeProfile);
@@ -272,17 +330,15 @@ function init() {
     };
 }
 
-// Send dark mode status to all iframes
-function sendDarkModeStatus() {
+function sendThemeSettings() {
     const iframes = document.querySelectorAll('iframe'); // Select all iframes
-
     // Loop through all iframes and send dark mode status
     iframes.forEach(iframe => {
-        iframe.contentWindow.postMessage({ darkMode: isDarkMode }, '*');
+        iframe.contentWindow.postMessage({ darkMode: isDarkMode, textColor: text_color, fontFamily: font_family, fontWeight: font_weight }, '*');
     });
 
-    const elements = document.querySelectorAll('*'); // Select all iframes
 
+    const elements = document.querySelectorAll('*'); // Select all iframes
     // Loop through all iframes and send dark mode status
     elements.forEach(element => {
         if (isDarkMode) {
@@ -291,6 +347,10 @@ function sendDarkModeStatus() {
         else {
             element.classList.remove("dark-mode")
         }
+
+        element.style.color = text_color;
+        element.style.fontFamily = font_family;
+        element.style.fontWeight = font_weight;
     });
 }
 
@@ -310,27 +370,78 @@ function load_settings() {
     const profile = profiles.find(p => p.id === activeProfile);
     if (profile) {
         isDarkMode = profile.settings.dark_mode
+        font_family = profile.settings.fontFamily
+        font_weight = profile.settings.fontWeight
+        text_color = profile.settings.textColor
         document.getElementById("dark_mode_checkbox").checked = isDarkMode
     }
-    sendDarkModeStatus()
+    sendThemeSettings()
+}
+
+
+
+// Function to detect available fonts in the document
+async function loadFonts() {
+
+    const fontSelect = document.getElementById('font-select');
+    const weightSelect = document.getElementById('weight-select');
+    const sampleText = document.getElementById('sample-text');
+    console.log(availableFonts)
+    const fontSet = new Set();
+
+    availableFonts.forEach(font => {
+        fontSet.add(font); // Add each unique font family
+    });
+
+    fontSet.forEach(font => {
+        const option = document.createElement('option');
+        option.value = font;
+        option.className = "select_option"
+        option.text = font;
+        fontSelect.appendChild(option);
+    });
+}
+
+// Function to apply selected font and weight to the sample text
+function applyFont() {
+
+    const fontSelect = document.getElementById('font-select');
+    const weightSelect = document.getElementById('weight-select');
+    const sampleText = document.getElementById('sample-text');
+
+    font_family = fontSelect.value;
+    font_weight = weightSelect.value;
+
+    // Apply selected font family and weight to the sample text
+    sampleText.style.fontFamily = font_family;
+    sampleText.style.fontWeight = font_weight;
+    sendThemeSettings()
 }
 
 function save_settings() {
+    applyFont()
     const profile = profiles.find(p => p.id === activeProfile);
 
     isDarkMode = document.getElementById("dark_mode_checkbox").checked
 
     if (profile) {
         profile.settings.dark_mode = isDarkMode
+        profile.settings.fontFamily = font_family
+        profile.settings.fontWeight = font_weight
+        profile.settings.textColor = text_color
     }
     saveProfiles()
-    sendDarkModeStatus()
+    sendThemeSettings()
     console.log("Saved settings")
 }
 
 let settingsOpen = false
 let isDarkMode = false
+let font_family = "Poppins"
+let font_weight = 300
+let text_color = "#ffffff"
 const amountOfBackgrounds = 10
 
 setTimeout(init, 10)
-setInterval(sendDarkModeStatus, 50)
+setTimeout(loadFonts, 1000)
+setInterval(sendThemeSettings, 50)

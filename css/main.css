@@ -157,7 +157,7 @@ body::before {
 }
 
 .left_bar {
-    width: 15%;
+    width: fit-content;
     /* Fixed width for larger screens */
     background: linear-gradient(180deg, rgba(0, 167, 160, 0.09497566116290268) 0%, rgba(0, 109, 1, 0) 21%);
     padding: 10px;
@@ -190,6 +190,7 @@ body::before {
 }
 
 .settings_bar {
+    width: fit-content;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -439,4 +440,13 @@ button:active {
 
 .checkbox:active {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+select {
+    background-color: #00000044;
+    color: white;
+}
+option  {
+    background-color: #000000;
+    color: white;
 }
