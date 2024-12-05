@@ -1,6 +1,7 @@
 window.addEventListener('message', function (event) {
   if (event.data && typeof event.data.darkMode !== 'undefined') {
     isDarkMode = event.data.darkMode;
+    power_saver = event.data.powerSaver
   }
 });
 
@@ -15,6 +16,7 @@ function update_theme() {
   });
 }
 
+let power_saver = false
 let isDarkMode = false
 console.log("Widget loaded");
 setInterval(update_theme, 10)

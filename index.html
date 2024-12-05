@@ -48,11 +48,12 @@
                 </div>
                 <div class="main_settings" id="main_settings">
                     <h1>Settings</h1>
-                    <input id="dark_mode_checkbox" type="checkbox" class="checkbox"><label
-                        for="dark_mode_checkbox">Dark theme</label>
+                    <input id="dark_mode_checkbox" type="checkbox" class="checkbox"><label for="dark_mode_checkbox">Dark
+                        theme</label>
                     <br>
-                    <h1>Dynamic Font and Weight Selector</h1>
-
+                    <input id="power_saver_checkbox" type="checkbox" class="checkbox"><label
+                        for="power_saver_checkbox">Power Saver</label>
+                    <br>
                     <label for="font-select">Choose a font:</label>
                     <select id="font-select">
                         <!-- Fonts will be populated dynamically -->
@@ -71,9 +72,6 @@
                         <option value="900">900 (Black)</option>
                     </select>
 
-                    <div class="sample-text" id="sample-text">
-                        This is a sample text to preview the selected font and weight.
-                    </div>
 
 
                     <button id="save_settings" onclick="save_settings()">Save</button>

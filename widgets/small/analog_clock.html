@@ -108,11 +108,17 @@
         </div>
     </div>
 
+    <script src="../wget_main.js"></script>
     <script>
         function updateClock() {
             const now = new Date();
-            
-            const secondDegree = now.getSeconds() * 6; // 360deg / 60 = 6deg per second
+            let secondDegree = 0;
+            if (power_saver) {
+                secondDegree = now.getSeconds() * 6; // 360deg / 60 = 6deg per second
+            }
+            else {
+                secondDegree = now.getSeconds() * 6 + (now.getMilliseconds() / 1000 * 6) // Smoothrot
+            }
             const minuteDegree = (now.getMinutes() * 6) + (now.getSeconds() * 0.1); // 360deg / 60 = 6deg per minute
             const hourDegree = (now.getHours() % 12) * 30 + (now.getMinutes() * 0.5); // 360deg / 12 = 30deg per hour
 
@@ -120,14 +126,16 @@
             document.getElementById('second').style.transform = `translate(-50%, -100%) rotate(${secondDegree}deg)`;
             document.getElementById('minute').style.transform = `translate(-50%, -100%) rotate(${minuteDegree}deg)`;
             document.getElementById('hour').style.transform = `translate(-50%, -100%) rotate(${hourDegree}deg)`;
+            if (power_saver) {
+                setTimeout(updateClock, 1000)
+            }
+            else {
+                setTimeout(updateClock, 100)
+            }
         }
-
-        // Update clock every second
-        setInterval(updateClock, 1000);
 
         // Initial call to set the clock immediately
         updateClock();
     </script>
-    <script src="../wget_main.js"></script>
 </body>
 </html>

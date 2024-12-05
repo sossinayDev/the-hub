@@ -52,8 +52,8 @@ const availableFonts = [
     "Lucida Console",
     "Helvetica",
     "Comic Sans MS"
-  ]
-  
+]
+
 
 
 
@@ -334,7 +334,7 @@ function sendThemeSettings() {
     const iframes = document.querySelectorAll('iframe'); // Select all iframes
     // Loop through all iframes and send dark mode status
     iframes.forEach(iframe => {
-        iframe.contentWindow.postMessage({ darkMode: isDarkMode, textColor: text_color, fontFamily: font_family, fontWeight: font_weight }, '*');
+        iframe.contentWindow.postMessage({ darkMode: isDarkMode, powerSaver: power_saver, textColor: text_color, fontFamily: font_family, fontWeight: font_weight }, '*');
     });
 
 
@@ -373,7 +373,9 @@ function load_settings() {
         font_family = profile.settings.fontFamily
         font_weight = profile.settings.fontWeight
         text_color = profile.settings.textColor
+        power_saver = profile.settings.powerSaver
         document.getElementById("dark_mode_checkbox").checked = isDarkMode
+        loadFonts()
     }
     sendThemeSettings()
 }
@@ -384,6 +386,7 @@ function load_settings() {
 async function loadFonts() {
 
     const fontSelect = document.getElementById('font-select');
+    fontSelect.innerHTML = "";
     const weightSelect = document.getElementById('weight-select');
     const sampleText = document.getElementById('sample-text');
     console.log(availableFonts)
@@ -398,6 +401,9 @@ async function loadFonts() {
         option.value = font;
         option.className = "select_option"
         option.text = font;
+        if (font == font_family) {
+            option.selected = true
+        }
         fontSelect.appendChild(option);
     });
 }
@@ -407,14 +413,10 @@ function applyFont() {
 
     const fontSelect = document.getElementById('font-select');
     const weightSelect = document.getElementById('weight-select');
-    const sampleText = document.getElementById('sample-text');
 
     font_family = fontSelect.value;
     font_weight = weightSelect.value;
 
-    // Apply selected font family and weight to the sample text
-    sampleText.style.fontFamily = font_family;
-    sampleText.style.fontWeight = font_weight;
     sendThemeSettings()
 }
 
@@ -423,12 +425,14 @@ function save_settings() {
     const profile = profiles.find(p => p.id === activeProfile);
 
     isDarkMode = document.getElementById("dark_mode_checkbox").checked
+    power_saver = document.getElementById("power_saver_checkbox").checked
 
     if (profile) {
         profile.settings.dark_mode = isDarkMode
         profile.settings.fontFamily = font_family
         profile.settings.fontWeight = font_weight
         profile.settings.textColor = text_color
+        profile.settings.powerSaver = power_saver
     }
     saveProfiles()
     sendThemeSettings()
@@ -440,6 +444,7 @@ let isDarkMode = false
 let font_family = "Poppins"
 let font_weight = 300
 let text_color = "#ffffff"
+let power_saver = true
 const amountOfBackgrounds = 10
 
 setTimeout(init, 10)

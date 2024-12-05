@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,22 +16,26 @@
             align-items: center;
             box-shadow: 0 0 130px rgba(255, 255, 255, 0.1);
         }
+
         .clock.dark-mode {
             box-shadow: 0 0 130px rgba(27, 27, 27, 0.1);
             box-shadow: 0 0 130px rgba(0, 0, 0, 0.1);
         }
 
-        
+
 
         .clock-face {
-            width: 120px; /* Adjusted size */
-            height: 120px; /* Adjusted size */
+            width: 120px;
+            /* Adjusted size */
+            height: 120px;
+            /* Adjusted size */
             border-radius: 50%;
             background-color: #ffffff85;
             position: relative;
             border: 2px solid #cfcfcf79;
         }
-        div.clock-face.dark-mode{
+
+        div.clock-face.dark-mode {
             background-color: #00000085 !important;
             border: 2px solid #000000 !important;
         }
@@ -41,8 +46,10 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform-origin: 50% 100%; /* Pivot at the bottom of the hand */
-            transform: translate(-50%, -100%); /* Center the hand at the bottom */
+            transform-origin: 50% 100%;
+            /* Pivot at the bottom of the hand */
+            transform: translate(-50%, -100%);
+            /* Center the hand at the bottom */
         }
 
         #hour {
@@ -51,19 +58,20 @@
             height: 20px;
             background-color: #000000;
         }
-        #hour.dark-mode{
+
+        #hour.dark-mode {
             border-width: 0px;
             background-color: #ffffff;
         }
 
         #minute {
             border-width: 0px;
-            width: 3px; 
+            width: 3px;
             height: 40px;
             background-color: #000000;
         }
 
-        #minute.dark-mode{
+        #minute.dark-mode {
             border-width: 0px;
             background-color: #ffffff;
         }
@@ -75,7 +83,7 @@
             background-color: #15139c;
         }
 
-        #second.dark-mode{
+        #second.dark-mode {
             border-width: 0px;
             background-color: #ff5733;
         }
@@ -92,12 +100,13 @@
             height: 100vh;
         }
 
-        body.dark-mode{
+        body.dark-mode {
             background-color: #00000054;
             color: #fff;
         }
     </style>
 </head>
+
 <body>
     <div class="clock">
         <div class="clock-face">
@@ -106,11 +115,17 @@
             <div class="second" id="second"></div>
         </div>
     </div>
+    <script src="../wget_main.js"></script>
     <script>
         function updateClock() {
             const now = new Date();
-            
-            const secondDegree = now.getSeconds() * 6; // 360deg / 60 = 6deg per second
+            let secondDegree = 0;
+            if (power_saver) {
+                secondDegree = now.getSeconds() * 6; // 360deg / 60 = 6deg per second
+            }
+            else {
+                secondDegree = now.getSeconds() * 6 + (now.getMilliseconds() / 1000 * 6) // Smoothrot
+            }
             const minuteDegree = (now.getMinutes() * 6) + (now.getSeconds() * 0.1); // 360deg / 60 = 6deg per minute
             const hourDegree = (now.getHours() % 12) * 30 + (now.getMinutes() * 0.5); // 360deg / 12 = 30deg per hour
 
@@ -118,14 +133,17 @@
             document.getElementById('second').style.transform = `translate(-50%, -100%) rotate(${secondDegree}deg)`;
             document.getElementById('minute').style.transform = `translate(-50%, -100%) rotate(${minuteDegree}deg)`;
             document.getElementById('hour').style.transform = `translate(-50%, -100%) rotate(${hourDegree}deg)`;
+            if (power_saver) {
+                setTimeout(updateClock, 1000)
+            }
+            else {
+                setTimeout(updateClock, 100)
+            }
         }
-
-        // Update clock every second
-        setInterval(updateClock, 1000);
 
         // Initial call to set the clock immediately
         updateClock();
     </script>
-    <script src="../wget_main.js"></script>
 </body>
+
 </html>
