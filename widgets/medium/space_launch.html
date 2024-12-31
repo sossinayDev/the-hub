@@ -1,0 +1,128 @@
+<head>
+    <script>
+        let countdownInterval; // Variable to store the countdown interval
+        let launchTime; // Variable to store the launch timestamp
+
+        async function getNextLaunch() {
+            const launchBaseUrl = 'https://lldev.thespacedevs.com/2.2.0/launch/';
+
+            // Get current time in ISO format
+            const now = new Date().toISOString();
+
+            // Construct query parameters
+            const netFilters = `net__gte=${now}`;
+            const orbitalFilter = 'include_suborbital=false';
+            const mode = 'mode=detailed';
+            const limit = 'limit=1';
+            const ordering = 'ordering=net';
+
+            // Assemble full query URL
+            const queryUrl = `${launchBaseUrl}?${netFilters}&${orbitalFilter}&${mode}&${limit}&${ordering}`;
+
+            try {
+                // Fetch the next launch data
+                const response = await fetch(queryUrl);
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data);  // Debugging: Log the data to inspect it
+
+                if (!data.results || data.results.length === 0) {
+                    throw new Error('No launch data found.');
+                }
+
+                const result = data.results[0];
+                const name = result.name;
+                const fetchedLaunchTime = new Date(result.net).getTime(); // Convert launch time to timestamp 
+
+                // Update the stored launch time and mission name
+                localStorage.setItem('launchTime', fetchedLaunchTime);
+                localStorage.setItem('missionName', name);
+
+                // Update the mission name and start the countdown
+                document.getElementById("mission-name").textContent = `${name}`;
+                launchTime = fetchedLaunchTime;
+                startCountdown();
+            } catch (error) {
+                console.error(`Exception: ${error}`);
+                document.getElementById("mission-name").textContent = "???";
+            }
+        }
+
+        function startCountdown() {
+            // Clear any existing countdown interval
+            clearInterval(countdownInterval);
+
+            // Update countdown every second
+            countdownInterval = setInterval(() => {
+                const nowTimestamp = Date.now();
+                const timeToLaunch = Math.max(0, Math.round((launchTime - nowTimestamp) / 1000)); // Ensure non-negative value
+                // Convert seconds into days, hours, minutes, and seconds
+                let days = Math.floor(timeToLaunch / (3600 * 24));
+                let hours = Math.floor((timeToLaunch % (3600 * 24)) / 3600);
+                let minutes = Math.floor((timeToLaunch % 3600) / 60);
+                let seconds = timeToLaunch % 60;
+
+                // Pad minutes and seconds with leading zeros if needed
+                seconds = seconds.toString().padStart(2, '0');
+                minutes = minutes.toString().padStart(2, '0');
+
+                // Display the countdown
+                if (days > 0) {
+                    document.getElementById("countdown").textContent =
+                        `T-${days}:${hours}:${minutes}`;
+                } else {
+                    document.getElementById("countdown").textContent =
+                        `T-${hours}:${minutes}:${seconds}`;
+                }
+
+                // If the countdown reaches 0, stop the interval and fetch the next launch
+                if (timeToLaunch <= 0) {
+                    document.getElementById("countdown").textContent = "[ LIVE ]";
+                    clearInterval(countdownInterval); // Stop countdown
+                    getNextLaunch(); // Fetch next launch when the countdown ends
+                }
+            }, 1000);
+        }
+
+        function checkStoredData() {
+            const storedLaunchTime = localStorage.getItem('launchTime');
+            const storedMissionName = localStorage.getItem('missionName');
+
+            if (!storedLaunchTime || !storedMissionName) {
+                // No stored data, fetch new launch data
+                getNextLaunch();
+            } else {
+                // Stored data exists, check if it's expired
+                const nowTimestamp = Date.now();
+                const launchTimeTimestamp = parseInt(storedLaunchTime);
+
+                if (launchTimeTimestamp < nowTimestamp) {
+                    // Stored launch time is in the past, fetch new launch data
+                    getNextLaunch();
+                } else {
+                    // Stored launch time is still valid, use it
+                    launchTime = launchTimeTimestamp;
+                    document.getElementById("mission-name").textContent = `${storedMissionName}`;
+                    startCountdown();
+                }
+            }
+        }
+
+        window.onload = checkStoredData
+
+        function redirect() {
+            parent.window.location.href = "https://go4liftoff.com";
+        }
+    </script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <script src="../wget_main.js"></script>
+    <span class="small" id="mission-name">Loading...</span>
+    <h2 onclick="redirect()" class="no_spacing" id="countdown"></h2>
+</body>

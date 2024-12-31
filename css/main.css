@@ -6,6 +6,9 @@ body {
     height: 100vh;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 body::before {
