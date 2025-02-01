@@ -2,9 +2,9 @@
     <script>
         let countdownInterval; // Variable to store the countdown interval
         let launchTime; // Variable to store the launch timestamp
-
+        let maxlength = 20
         async function getNextLaunch() {
-            const launchBaseUrl = 'https://lldev.thespacedevs.com/2.2.0/launch/';
+            const launchBaseUrl = 'https://ll.thespacedevs.com/2.2.0/launch/';
 
             // Get current time in ISO format
             const now = new Date().toISOString();
@@ -43,7 +43,12 @@
                 localStorage.setItem('missionName', name);
 
                 // Update the mission name and start the countdown
-                document.getElementById("mission-name").textContent = `${name}`;
+                if (name.length > maxlength) {
+                    document.getElementById("mission-name").textContent = `${name.substring(0,maxlength)}...`;
+                }
+                else {
+                    document.getElementById("mission-name").textContent = `${name}`
+                }
                 launchTime = fetchedLaunchTime;
                 startCountdown();
             } catch (error) {
@@ -106,7 +111,13 @@
                 } else {
                     // Stored launch time is still valid, use it
                     launchTime = launchTimeTimestamp;
-                    document.getElementById("mission-name").textContent = `${storedMissionName}`;
+                    console.log("lenght:", storedMissionName.length)
+                    if (storedMissionName.length > maxlength) {
+                        document.getElementById("mission-name").textContent = `${storedMissionName.substring(0, maxlength)}...`;
+                    }
+                    else {
+                        document.getElementById("mission-name").textContent = `${storedMissionName}`;
+                    }
                     startCountdown();
                 }
             }
